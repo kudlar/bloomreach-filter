@@ -1,6 +1,6 @@
 import { Attribute } from 'src/app/model/filter';
 
-export interface EventsListResponse {
+export interface EventListResponse {
     events: Event[];
 }
 

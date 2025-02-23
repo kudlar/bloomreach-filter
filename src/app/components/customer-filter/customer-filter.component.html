@@ -3,11 +3,11 @@
   <button mat-button (click)="discardFilters()">Discard filters</button>
 </div>
 <div>
-  <app-filter-step></app-filter-step>
+  @let filterState = filterStateService.filterState | async;
+  @for (step of filterState?.steps; track step; let idx = $index) {
+    <app-filter-step [step]="step" [index]="idx" [eventList]="eventList"></app-filter-step>
+  }
 </div>
 <div>
   <button mat-flat-button (click)="applyFilters()">Apply filters</button>
 </div>
-
-
-

@@ -6,7 +6,7 @@ export interface FilterState {
 }
 
 export interface FilterStep {
-    event: string;
+    eventName: string;
     attributeRules: AttributeRule[];
 }
 
@@ -18,7 +18,7 @@ export interface AttributeRule {
 
 export interface Attribute {
     property: string;
-    type: string | number;
+    type: 'string' | 'number';
 }
 
 // export type ValueType = string | number | [number, number];

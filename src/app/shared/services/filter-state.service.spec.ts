@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FilterStateService } from './filter-state.service';
+import { FilterStateService } from 'src/app/shared/services/filter-state.service';
 
 describe('FilterStateService', () => {
   let service: FilterStateService;
