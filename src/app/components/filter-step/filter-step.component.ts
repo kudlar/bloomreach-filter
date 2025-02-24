@@ -1,19 +1,25 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EventType } from 'src/app/model/event-list-response';
-import { Attribute, FilterStep } from 'src/app/model/filter';
+import { Attribute } from 'src/app/model/filter';
 import { AutocompleteDropdownComponent } from 'src/app/shared/components/autocomplete-dropdown/autocomplete-dropdown.component';
+import { FilterService } from 'src/app/shared/services/filter.service';
 
 @Component({
     selector: 'app-filter-step',
     imports: [
         AutocompleteDropdownComponent,
+        ReactiveFormsModule,
     ],
     templateUrl: './filter-step.component.html',
     styleUrl: './filter-step.component.scss',
 })
 export class FilterStepComponent {
-    step = input.required<FilterStep>();
-    index = input.required<number>();
+    filterService = inject(FilterService);
+
+    stepFormGroup = input.required<FormGroup>();
+
+    stepIndex = input.required<number>();
     eventList = input.required<EventType[] | []>();
 
     selectedEvent = signal<EventType | null>(null);
@@ -22,6 +28,7 @@ export class FilterStepComponent {
 
     selectEvent(option: EventType | Attribute): void {
         this.selectedEvent.set(option as EventType);
+        this.filterService.addAttributeRule(this.stepIndex());
     }
 
     selectAttribute(option: EventType | Attribute): void {

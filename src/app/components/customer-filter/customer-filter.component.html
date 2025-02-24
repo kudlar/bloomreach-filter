@@ -2,12 +2,14 @@
   Customer Filter
   <button (click)="discardFilters()">Discard filters</button>
 </div>
-<div>
-  @let filterState = filterStateService.filterState | async;
-  @for (step of filterState?.steps; track step; let idx = $index) {
-    <app-filter-step [step]="step" [index]="idx" [eventList]="eventList"></app-filter-step>
-  }
-</div>
-<div>
-  <button (click)="applyFilters()">Apply filters</button>
-</div>
+
+<form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+  <div formArrayName="steps">
+    @for (step of filterService.steps.controls; track step; let i = $index) {
+      <app-filter-step [stepFormGroup]="$any(step)" [stepIndex]="i" [eventList]="eventList" [formGroupName]="i"></app-filter-step>
+    }
+  </div>
+
+  <button type="button" (click)="filterService.addStep()">Add Step</button>
+  <button type="submit">Submit</button>
+</form>

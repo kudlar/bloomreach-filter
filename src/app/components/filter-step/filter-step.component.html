@@ -1,15 +1,33 @@
 <div>
-  {{ index() }}. Step: {{ step().eventName }}
-</div>
-<div>
-  <app-autocomplete-dropdown [eventList]="eventList()" (onSelectOption)="selectEvent($event)"></app-autocomplete-dropdown>
-  @if (selectedEvent() && !attributeDropdownOpened()) {
-    <button (click)="showAttributeDropdown()">+ Add an event attribute</button>
-  }
-  @if (attributeDropdownOpened()) {
-    <app-autocomplete-dropdown [eventList]="eventList()" [selectedEvent]="selectedEvent()" (onSelectOption)="selectAttribute($event)"></app-autocomplete-dropdown>
-  }
-
+  {{ stepIndex() + 1 }}. Step: {{ selectedEvent()?.type }}
+  <button type="button" (click)="filterService.removeStep(stepIndex())">Remove Step</button>
 </div>
 
+<div [formGroup]="stepFormGroup()">
+  <app-autocomplete-dropdown [eventList]="eventList()"
+                             (onSelectOption)="selectEvent($event)"
+                             formControlName="eventName"></app-autocomplete-dropdown>
+  <div formArrayName="attributeRules">
+    @for (rule of filterService.getAttributeRules(stepIndex()).controls; track rule; let j = $index) {
+      @if (selectedEvent() && !attributeDropdownOpened()) {
+        <button (click)="showAttributeDropdown()">+Add an event attribute</button>
+      }
+      <div [formGroupName]="j">
+        @if (attributeDropdownOpened()) {
+          <app-autocomplete-dropdown [eventList]="eventList()"
+                                     [selectedEvent]="selectedEvent()"
+                                     (onSelectOption)="selectAttribute($event)"
+                                     formControlName="attribute"></app-autocomplete-dropdown>
+        }
+        @if (selectedAttribute()) {
+          <input formControlName="operator" placeholder="Operator"/>
+          <input formControlName="value" placeholder="Value"/>
+        }
+        <!--        <button type="button" (click)="filterService.removeAttributeRule(stepIndex(), j)">Remove Rule</button>-->
+      </div>
+    }
+  </div>
+
+  <!--  <button type="button" (click)="filterService.addAttributeRule(stepIndex())">Add Attribute Rule</button>-->
+</div>
 <hr>
