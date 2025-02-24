@@ -1,5 +1,5 @@
-import { NumberOperator, NumberOperatorToValueTypeMap } from 'src/app/model/number-operator';
-import { StringOperator, StringOperatorToValueTypeMap } from 'src/app/model/string-operator';
+import { NumberOperator, NumberOperatorToValueTypeMap } from 'src/app/model/number-operator.enum';
+import { StringOperator, StringOperatorToValueTypeMap } from 'src/app/model/string-operator.enum';
 
 export interface FilterState {
     steps: FilterStep[];

@@ -20,14 +20,15 @@
                                      formControlName="attribute"></app-autocomplete-dropdown>
         }
         @if (selectedAttribute()) {
-          <input formControlName="operator" placeholder="Operator"/>
-          <input formControlName="value" placeholder="Value"/>
+          <app-operator-dropdown [selectedAttribute]="selectedAttribute()" formControlName="operator"></app-operator-dropdown>
+<!--          <input formControlName="operator" placeholder="Operator"/>-->
+<!--          <input formControlName="value" placeholder="Value"/>-->
         }
         <!--        <button type="button" (click)="filterService.removeAttributeRule(stepIndex(), j)">Remove Rule</button>-->
       </div>
     }
   </div>
 
-  <!--  <button type="button" (click)="filterService.addAttributeRule(stepIndex())">Add Attribute Rule</button>-->
+    <button type="button" (click)="filterService.addAttributeRule(stepIndex())">Add Attribute Rule</button>
 </div>
 <hr>

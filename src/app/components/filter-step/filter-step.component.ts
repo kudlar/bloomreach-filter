@@ -3,6 +3,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EventType } from 'src/app/model/event-list-response';
 import { Attribute } from 'src/app/model/filter';
 import { AutocompleteDropdownComponent } from 'src/app/shared/components/autocomplete-dropdown/autocomplete-dropdown.component';
+import { OperatorDropdownComponent } from 'src/app/shared/components/operator-dropdown/operator-dropdown.component';
 import { FilterService } from 'src/app/shared/services/filter.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { FilterService } from 'src/app/shared/services/filter.service';
     imports: [
         AutocompleteDropdownComponent,
         ReactiveFormsModule,
+        OperatorDropdownComponent,
     ],
     templateUrl: './filter-step.component.html',
     styleUrl: './filter-step.component.scss',

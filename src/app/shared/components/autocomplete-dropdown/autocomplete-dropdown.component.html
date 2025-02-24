@@ -17,14 +17,12 @@
       <app-input-search [placeholder]="!selectedEvent() ? 'Select an event' : 'Select an attribute'" (onSearch)="searchTerm.set($event)"></app-input-search>
       <ul>
         @for (option of filteredOptions(); track option) {
-          <li>
-            <a (click)="selectOption(option)">
-              @if (isEvent(option)) {
-                {{ option.type }}
-              } @else if (isAttribute(option)) {
-                {{ option.property }}
-              }
-            </a>
+          <li (click)="selectOption(option)">
+            @if (isEvent(option)) {
+              {{ option.type }}
+            } @else if (isAttribute(option)) {
+              {{ option.property }}
+            }
           </li>
         }
       </ul>

@@ -102,7 +102,4 @@ export class AutocompleteDropdownComponent implements ControlValueAccessor {
     setDisabledState(disabled: boolean) {
         this.disabled = disabled;
     }
-
-
-
 }
