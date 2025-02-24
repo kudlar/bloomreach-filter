@@ -1,0 +1,20 @@
+<div appClickOutside (clickOutside)="closeDropdown()">
+  <select (mousedown)="openDropdown($event)">
+    <option value="" disabled selected>Select an option</option>
+  </select>
+
+  @if (dropdownOpened()) {
+    <div>
+      <app-input-search (onSearch)="searchTerm.set($event)"></app-input-search>
+      <ul>
+        @for (option of filteredOptions(); track option) {
+          <li>
+            <a (click)="selectOption(option)">{{ option.type }}</a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>
+
+<!--{{ eventsList() | json }}-->

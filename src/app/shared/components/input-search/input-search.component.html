@@ -1,0 +1,4 @@
+<input #inputElement
+       type="text"
+       placeholder="{{ placeholder() }}"
+       (input)="searchTerm$.next(inputElement.value)">

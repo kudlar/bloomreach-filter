@@ -1,12 +1,14 @@
 import { Component, input } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
-import { EventsListResponse } from 'src/app/model/events-list-response';
+import { AutocompleteDropdownComponent } from 'src/app/shared/components/autocomplete-dropdown/autocomplete-dropdown.component';
+import { Event } from 'src/app/model/event-list-response';
 import { FilterStep } from 'src/app/model/filter';
 
 @Component({
     selector: 'app-filter-step',
     imports: [
         MatIcon,
+        AutocompleteDropdownComponent,
     ],
     templateUrl: './filter-step.component.html',
     styleUrl: './filter-step.component.scss',
@@ -14,5 +16,5 @@ import { FilterStep } from 'src/app/model/filter';
 export class FilterStepComponent {
     step = input.required<FilterStep>();
     index = input.required<number>();
-    eventsList = input.required<EventsListResponse | []>();
+    eventList = input.required<Event[] | []>();
 }
