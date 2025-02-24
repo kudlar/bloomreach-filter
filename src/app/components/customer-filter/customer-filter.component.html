@@ -1,6 +1,6 @@
 <div>
   Customer Filter
-  <button mat-button (click)="discardFilters()">Discard filters</button>
+  <button (click)="discardFilters()">Discard filters</button>
 </div>
 <div>
   @let filterState = filterStateService.filterState | async;
@@ -9,5 +9,5 @@
   }
 </div>
 <div>
-  <button mat-flat-button (click)="applyFilters()">Apply filters</button>
+  <button (click)="applyFilters()">Apply filters</button>
 </div>

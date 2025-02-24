@@ -1,13 +1,11 @@
 import { Component, input } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { AutocompleteDropdownComponent } from 'src/app/shared/components/autocomplete-dropdown/autocomplete-dropdown.component';
 import { Event } from 'src/app/model/event-list-response';
 import { FilterStep } from 'src/app/model/filter';
+import { AutocompleteDropdownComponent } from 'src/app/shared/components/autocomplete-dropdown/autocomplete-dropdown.component';
 
 @Component({
     selector: 'app-filter-step',
     imports: [
-        MatIcon,
         AutocompleteDropdownComponent,
     ],
     templateUrl: './filter-step.component.html',
