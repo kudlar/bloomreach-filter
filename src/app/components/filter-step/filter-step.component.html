@@ -1,6 +1,15 @@
 <div>
   {{ index() }}. Step: {{ step().eventName }}
 </div>
-<app-autocomplete-dropdown [eventList]="eventList()"></app-autocomplete-dropdown>
+<div>
+  <app-autocomplete-dropdown [eventList]="eventList()" (onSelectOption)="selectEvent($event)"></app-autocomplete-dropdown>
+  @if (selectedEvent() && !attributeDropdownOpened()) {
+    <button (click)="showAttributeDropdown()">+ Add an event attribute</button>
+  }
+  @if (attributeDropdownOpened()) {
+    <app-autocomplete-dropdown [eventList]="eventList()" [selectedEvent]="selectedEvent()" (onSelectOption)="selectAttribute($event)"></app-autocomplete-dropdown>
+  }
+
+</div>
 
 <hr>

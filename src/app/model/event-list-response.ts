@@ -1,10 +1,10 @@
 import { Attribute } from 'src/app/model/filter';
 
 export interface EventListResponse {
-    events: Event[];
+    events: EventType[];
 }
 
-export interface Event {
+export interface EventType {
     type: string;
     properties: Attribute[];
 }

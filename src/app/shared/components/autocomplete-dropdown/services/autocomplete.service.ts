@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Event } from 'src/app/model/event-list-response';
+import { EventType } from 'src/app/model/event-list-response';
 import { Attribute } from 'src/app/model/filter';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class AutocompleteService {
      * @param selectedEvent
      * @param searchTerm
      */
-    filterOptions(eventList: Event[], selectedEvent: Event | null, searchTerm: string): Event[] | Attribute[] {
+    filterOptions(eventList: EventType[], selectedEvent: EventType | null, searchTerm: string): EventType[] | Attribute[] {
         searchTerm = searchTerm.toLowerCase();
         if (!selectedEvent) {
             return this.filterEventOptions(eventList, searchTerm);
@@ -28,8 +28,8 @@ export class AutocompleteService {
      * @param searchTerm
      * @private
      */
-    private filterEventOptions(eventList: Event[], searchTerm: string): Event[] {
-        return eventList.filter((event: Event) => event.type.toLowerCase().includes(searchTerm));
+    private filterEventOptions(eventList: EventType[], searchTerm: string): EventType[] {
+        return eventList.filter((event: EventType) => event.type.toLowerCase().includes(searchTerm));
     }
 
     /**
@@ -40,8 +40,8 @@ export class AutocompleteService {
      * @param searchTerm
      * @private
      */
-    private filterAttributeOptions(eventList: Event[], selectedEvent: Event, searchTerm: string): Attribute[] {
-        let event: Event | null = eventList.find((event: Event) => event.type === selectedEvent.type) ?? null;
+    private filterAttributeOptions(eventList: EventType[], selectedEvent: EventType, searchTerm: string): Attribute[] {
+        let event: EventType | null = eventList.find((event: EventType) => event.type === selectedEvent.type) ?? null;
         if (event) {
             return event.properties.filter((attribute: Attribute) => attribute.property.toLowerCase().includes(searchTerm));
         }

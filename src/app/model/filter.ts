@@ -20,5 +20,3 @@ export interface Attribute {
     property: string;
     type: 'string' | 'number';
 }
-
-// export type ValueType = string | number | [number, number];

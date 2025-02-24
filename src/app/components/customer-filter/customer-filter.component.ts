@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
 import { FilterStepComponent } from 'src/app/components/filter-step/filter-step.component';
-import { Event, EventListResponse } from 'src/app/model/event-list-response';
+import { EventType, EventListResponse } from 'src/app/model/event-list-response';
 import { FilterStateService } from 'src/app/shared/services/filter-state.service';
 import { EventsService } from 'src/services/events.service';
 
@@ -20,7 +20,7 @@ import { EventsService } from 'src/services/events.service';
 export class CustomerFilterComponent {
     filterStateService = inject(FilterStateService);
     eventsService = inject(EventsService);
-    eventList: Event[] = [];
+    eventList: EventType[] = [];
 
     constructor() {
         this.eventsService.fetchEventList()
