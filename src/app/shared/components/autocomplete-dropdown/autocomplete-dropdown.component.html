@@ -1,5 +1,5 @@
 <div appClickOutside (clickOutside)="closeDropdown()">
-  <select (mousedown)="openDropdown($event)">
+  <select (mousedown)="openDropdown($event)" class="mt-4 py-2 px-4 border border-gray-300 text-gray-500 bg-white hover:bg-gray-100 focus:outline-none w-50">
     <option value="{{ selectedOptionName() }}" selected>
       @if (!selectedOptionName()) {
         {{ !selectedEvent() ? 'Select an event' : 'Select an attribute' }}
@@ -10,22 +10,30 @@
   </select>
 
   @if (dropdownPanelOpened()) {
-    <div>
-      @if (selectedEvent()) {
-        {{ selectedEvent()?.type }}
-      }
-      <app-input-search [placeholder]="!selectedEvent() ? 'Select an event' : 'Select an attribute'" (onSearch)="searchTerm.set($event)"></app-input-search>
-      <ul>
-        @for (option of filteredOptions(); track option) {
-          <li (click)="selectOption(option)">
-            @if (isEvent(option)) {
-              {{ option.type }}
-            } @else if (isAttribute(option)) {
-              {{ option.property }}
-            }
-          </li>
+    <div class="absolute w-150 border border-gray-300  bg-white shadow-xl mt-2">
+      <!--      search input-->
+      <div class="flex items-center p-4 cursor-pointer border-b border-gray-300">
+        @if (selectedEvent()) {
+          <span class="bg-gray-100 text-gray-700 text-sm font-medium px-2 py-1 rounded mr-2">{{ selectedEvent()?.type }}</span>
         }
-      </ul>
+        <app-input-search [placeholder]="!selectedEvent() ? 'Filter events...' : 'Filter attributes...'"
+                          [focus]="dropdownPanelOpened()"
+                          (onSearch)="searchTerm.set($event)"></app-input-search>
+      </div>
+      <!--      results box-->
+      <div class="w-full max-h-100 overflow-y-auto">
+        <ul class="text-gray-700 text-sm">
+          @for (option of filteredOptions(); track option) {
+            <li (click)="selectOption(option)" class="px-4 py-2 hover:bg-yellow-400 hover:text-black cursor-pointer">
+              @if (isEvent(option)) {
+                {{ option.type }}
+              } @else if (isAttribute(option)) {
+                {{ option.property }}
+              }
+            </li>
+          }
+        </ul>
+      </div>
     </div>
   }
 </div>

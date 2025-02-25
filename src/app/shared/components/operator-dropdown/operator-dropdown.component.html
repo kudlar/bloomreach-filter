@@ -1,5 +1,5 @@
 <div appClickOutside (clickOutside)="closeDropdown()">
-  <select (mousedown)="openDropdown($event)">
+  <select (mousedown)="openDropdown($event)" class="mt-4 py-2 px-4 border border-gray-300 text-gray-500 bg-white hover:bg-gray-100 focus:outline-none w-50">
     @let selectedOperator = selectedOperator$ | async;
     <option value="{{ selectedOperator }}" selected>{{ selectedOperator }}</option>
   </select>
@@ -7,36 +7,76 @@
   @if (dropdownPanelOpened()) {
     @let activeTab = activeTab$ | async;
     <!-- tabs.component.html -->
-    <div class="w-full max-w-lg mx-auto">
-      <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
-        <ul class="flex flex-wrap -mb-px">
-          <li class="me-2">
-            <a (click)="setActiveTab('string')"
-               [ngClass]="{'text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500': activeTab === 'string',
-               'border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300': activeTab !== 'string'}"
-               class="inline-block p-4" aria-current="page"> String</a>
-          </li>
-          <li class="me-2">
-            <a (click)="setActiveTab('number')"
-               [ngClass]="{'text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500': activeTab === 'number',
-               'border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300': activeTab !== 'number'}"
-               class="inline-block p-4" aria-current="page"> Number</a>
-          </li>
-        </ul>
+
+    <div class="absolute w-100 border border-gray-300  bg-white shadow-xl mt-2">
+      <!-- Operator tabs -->
+      <div class="flex border-b border-gray-200">
+        <button (click)="setActiveTab('string')"
+                class="flex-1 py-2 text-center text-gray-700 font-medium relative hover:text-gray-700 flex flex-col items-center gap-1"
+                [ngClass]="{'text-gray-700': activeTab === 'string', 'text-gray-300': activeTab !== 'string'}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 color: inherit">
+            <path fill-rule="evenodd" d="M8 2.75A.75.75 0 0 1 8.75 2h7.5a.75.75 0 0 1 0 1.5h-3.215l-4.483 13h2.698a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5h3.215l4.483-13H8.75A.75.75 0 0 1 8 2.75Z" clip-rule="evenodd"/>
+          </svg>
+          <span>STRING</span>
+          @if (activeTab === 'string') {
+            <div class="absolute bottom-0 left-0 right-0 h-1 bg-yellow-400 rounded-t"></div>
+          }
+        </button>
+
+        <button (click)="setActiveTab('number')"
+                class="flex-1 py-2 text-center  font-medium relative hover:text-gray-700 flex flex-col items-center gap-1"
+                [ngClass]="{'text-gray-700': activeTab === 'number', 'text-gray-300': activeTab !== 'number'}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 color: inherit">
+            <path fill-rule="evenodd" d="M9.493 2.852a.75.75 0 0 0-1.486-.204L7.545 6H4.198a.75.75 0 0 0 0 1.5h3.14l-.69 5H3.302a.75.75 0 0 0 0 1.5h3.14l-.435 3.148a.75.75 0 0 0 1.486.204L7.955 14h2.986l-.434 3.148a.75.75 0 0 0 1.486.204L12.456 14h3.346a.75.75 0 0 0 0-1.5h-3.14l.69-5h3.346a.75.75 0 0 0 0-1.5h-3.14l.435-3.148a.75.75 0 0 0-1.486-.204L12.045 6H9.059l.434-3.148ZM8.852 7.5l-.69 5h2.986l.69-5H8.852Z" clip-rule="evenodd"/>
+          </svg>
+          <span>NUMBER</span>
+          @if (activeTab === 'number') {
+            <div class="absolute bottom-0 left-0 right-0 h-1 bg-yellow-400 rounded-t"></div>
+          }
+        </button>
       </div>
 
-      <!-- Tab Content -->
-      <div class="p-4 bg-white rounded-lg shadow mt-2">
+      <!-- operators list -->
+      <ul class="text-gray-700 text-sm">
         @let items = activeTab === 'string' ? stringTabItems() : numberTabItems();
-        <div class="transition-opacity duration-300">
-          <ul>
-            @for (operator of items; track operator) {
-              <li (click)="selectOperator(operator)">{{ operator }}</li>
-            }
-          </ul>
-        </div>
-      </div>
+        @for (operator of items; track operator) {
+          <li (click)="selectOperator(operator)" class="px-4 py-2 cursor-pointer hover:bg-yellow-400">{{ operator }}</li>
+        }
+      </ul>
     </div>
+
+
+    <!--        <div class="absolute w-100 border border-gray-300  bg-white shadow-xl mt-2">-->
+
+        <!--              <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">-->
+        <!--                <ul class="flex flex-wrap -mb-px">-->
+        <!--                  <li class="me-2">-->
+        <!--                    <a (click)="setActiveTab('string')"-->
+        <!--                       [ngClass]="{'text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500': activeTab === 'string',-->
+        <!--                       'border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300': activeTab !== 'string'}"-->
+        <!--                       class="inline-block p-4" aria-current="page"> String</a>-->
+        <!--                  </li>-->
+        <!--                  <li class="me-2">-->
+        <!--                    <a (click)="setActiveTab('number')"-->
+        <!--                       [ngClass]="{'text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500': activeTab === 'number',-->
+        <!--                       'border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300': activeTab !== 'number'}"-->
+        <!--                       class="inline-block p-4" aria-current="page"> Number</a>-->
+        <!--                  </li>-->
+        <!--                </ul>-->
+        <!--              </div>-->
+
+        <!--              &lt;!&ndash; Tab Content &ndash;&gt;-->
+        <!--              <div class="p-4 bg-white rounded-lg shadow mt-2">-->
+        <!--&lt;!&ndash;                @let items = activeTab === 'string' ? stringTabItems() : numberTabItems();&ndash;&gt;-->
+        <!--                <div class="transition-opacity duration-300">-->
+        <!--                  <ul>-->
+        <!--                    @for (operator of items; track operator) {-->
+        <!--                      <li (click)="selectOperator(operator)">{{ operator }}</li>-->
+        <!--                    }-->
+        <!--                  </ul>-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--            </div>-->
   }
 </div>
 

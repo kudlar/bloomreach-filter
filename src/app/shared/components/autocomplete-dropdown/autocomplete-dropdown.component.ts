@@ -52,6 +52,7 @@ export class AutocompleteDropdownComponent implements ControlValueAccessor {
 
     openDropdown(e: MouseEvent): void {
         e.preventDefault();
+        e.stopPropagation();
         this.markAsTouched();
         if (!this.disabled) {
             this.dropdownPanelOpened.set(true);

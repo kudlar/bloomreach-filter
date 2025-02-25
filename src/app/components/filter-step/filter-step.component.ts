@@ -26,7 +26,7 @@ export class FilterStepComponent {
 
     selectedEvent = signal<EventType | null>(null);
     selectedAttribute = signal<Attribute | null>(null);
-    attributeDropdownOpened = signal<boolean>(false);
+    attributeDropdownShowed = signal<boolean>(false);
 
     selectEvent(option: EventType | Attribute): void {
         this.selectedEvent.set(option as EventType);
@@ -38,6 +38,11 @@ export class FilterStepComponent {
     }
 
     showAttributeDropdown(): void {
-        this.attributeDropdownOpened.set(true);
+        this.attributeDropdownShowed.set(true);
+    }
+
+    refineMoreRules(): void {
+        this.filterService.addAttributeRule(this.stepIndex());
+        this.showAttributeDropdown();
     }
 }
