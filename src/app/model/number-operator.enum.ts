@@ -5,9 +5,9 @@ export enum NumberOperator {
     GreaterThan = 'greater than',
 }
 
-export type NumberOperatorToValueTypeMap = {
-    [NumberOperator.EqualTo]: number,
-    [NumberOperator.InBetween]: [number, number],
-    [NumberOperator.LessThan]: number,
-    [NumberOperator.GreaterThan]: number,
+export const NumberOperatorToValueTypeMap = {
+    [NumberOperator.EqualTo]: 1,
+    [NumberOperator.InBetween]: 2,
+    [NumberOperator.LessThan]: 1,
+    [NumberOperator.GreaterThan]: 1,
 };

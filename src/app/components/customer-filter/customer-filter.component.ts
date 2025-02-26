@@ -4,7 +4,6 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { tap } from 'rxjs';
 import { FilterStepComponent } from 'src/app/components/filter-step/filter-step.component';
 import { EventListResponse, EventType } from 'src/app/model/event-list-response';
-import { FilterStateService } from 'src/app/shared/services/filter-state.service';
 import { FilterService } from 'src/app/shared/services/filter.service';
 import { EventsService } from 'src/services/events.service';
 
@@ -19,7 +18,6 @@ import { EventsService } from 'src/services/events.service';
     styleUrl: './customer-filter.component.scss',
 })
 export class CustomerFilterComponent {
-    filterStateService = inject(FilterStateService);
     eventsService = inject(EventsService);
     filterService = inject(FilterService);
 
@@ -27,6 +25,8 @@ export class CustomerFilterComponent {
     filterForm: FormGroup = this.filterService.form;
 
     constructor() {
+        this.initForm();
+
         this.eventsService.fetchEventList()
             .pipe(
                 takeUntilDestroyed(),
@@ -42,10 +42,17 @@ export class CustomerFilterComponent {
         });
     }
 
-    discardFilters() {
-
+    discardFilterForm(): void {
+        this.filterService.steps.clear();
+        this.initForm();
     }
 
-    applyFilters() {
+    applyFilters(): void {
+        const formValues = this.filterForm.value;
+        console.log('Filter Form Values', formValues);
+    }
+
+    private initForm(): void {
+        this.filterService.addStep();
     }
 }

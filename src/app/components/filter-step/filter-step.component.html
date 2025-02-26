@@ -3,7 +3,7 @@
   <div class="flex justify-between items-center">
     <div class="flex items-center gap-2">
       <span class="text-gray-500">{{ stepIndex() + 1 }}. Step:</span>
-      <span class="text-gray-800 font-medium">{{ selectedEvent()?.type }}</span>
+      <span class="text-gray-800 font-medium">{{ selectedEvent()?.type ?? 'Unnamed step' }}</span>
     </div>
     <div class="flex items-center gap-2">
       <button type="button" (click)="filterService.removeStep(stepIndex())">
@@ -25,32 +25,20 @@
                                (onSelectOption)="selectEvent($event)"
                                formControlName="eventName"></app-autocomplete-dropdown>
 
-    <div formArrayName="attributeRules" class="flex flex-col items-center gap-1">
+    <div formArrayName="attributeRules" class="flex flex-col items-start gap-1">
+      @if (addAttributeBtnShowed()) {
+        <button (click)="addRules()" class="text-cyan-400 text-sm bg-transparent border-none cursor-pointer font-semibold mt-4 pt-2">+Add an event attribute</button>
+      }
       @for (rule of filterService.getAttributeRules(stepIndex()).controls; track rule; let j = $index) {
-        <div class="flex items-center gap-4">
-          @if (selectedEvent() && !attributeDropdownShowed()) {
-            <button (click)="showAttributeDropdown()" class="text-cyan-400 text-sm bg-transparent border-none cursor-pointer font-semibold mt-4 pt-2">+Add an event attribute</button>
-          }
-          <ng-container [formGroupName]="j">
-            @if (attributeDropdownShowed()) {
-              <app-autocomplete-dropdown [eventList]="eventList()"
-                                         [selectedEvent]="selectedEvent()"
-                                         (onSelectOption)="selectAttribute($event)"
-                                         formControlName="attribute"></app-autocomplete-dropdown>
-            }
-            @if (selectedAttribute()) {
-              <app-operator-dropdown [selectedAttribute]="selectedAttribute()" formControlName="operator"></app-operator-dropdown>
-              <!--          <input formControlName="operator" placeholder="Operator"/>-->
-                  <!--          <input formControlName="value" placeholder="Value"/>-->
-            }
-            <!--        <button type="button" (click)="filterService.removeAttributeRule(stepIndex(), j)">Remove Rule</button>-->
-          </ng-container>
-        </div>
+        <app-attribute-rule [attributeRuleFormGroup]="$any(rule)"
+                            [eventList]="eventList()"
+                            [selectedEvent]="selectedEvent()"
+                            (onRemove)="filterService.removeAttributeRule(stepIndex(), j)"></app-attribute-rule>
       }
       <!--Refine more btn-->
       <div class="flex self-start mt-2">
-        @if (selectedAttribute()) {
-          <button (click)="refineMoreRules()" class="text-cyan-400 text-sm bg-transparent border-none cursor-pointer font-semibold">Refine more</button>
+        @if (filterService.getAttributeRules(stepIndex()).length > 0) {
+          <button (click)="addRules()" class="text-cyan-400 text-sm bg-transparent border-none cursor-pointer font-semibold">Refine more</button>
         }
       </div>
     </div>

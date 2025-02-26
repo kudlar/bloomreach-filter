@@ -34,7 +34,8 @@ export class FilterService {
         rules.push(new FormGroup({
             attribute: new FormControl(null, Validators.required),
             operator: new FormControl(null, Validators.required),
-            value: new FormControl(null, Validators.required),
+            value1: new FormControl(null, Validators.required),
+            value2: new FormControl(null, Validators.required),
         }));
     }
 

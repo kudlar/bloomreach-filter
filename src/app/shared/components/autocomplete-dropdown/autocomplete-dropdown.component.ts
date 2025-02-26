@@ -5,6 +5,7 @@ import { Attribute } from 'src/app/model/filter';
 import { AutocompleteService } from 'src/app/shared/components/autocomplete-dropdown/services/autocomplete.service';
 import { InputSearchComponent } from 'src/app/shared/components/input-search/input-search.component';
 import { ClickOutsideDirective } from 'src/app/shared/directives/click-outside.directive';
+import { isAttribute, isEvent } from 'src/app/shared/helpers';
 
 @Component({
     selector: 'app-autocomplete-dropdown',
@@ -31,7 +32,7 @@ export class AutocompleteDropdownComponent implements ControlValueAccessor {
     selectedOption = signal<EventType | Attribute | null>(null);
     selectedOptionName = computed((): string => {
         if (this.selectedOption() !== null) {
-            return this.isEvent(this.selectedOption()!) ? this.selectedOption()!.type : (<Attribute> this.selectedOption())!.property;
+            return isEvent(this.selectedOption()!) ? this.selectedOption()!.type : (<Attribute> this.selectedOption())!.property;
         }
         return '';
     });
@@ -61,14 +62,6 @@ export class AutocompleteDropdownComponent implements ControlValueAccessor {
 
     closeDropdown(): void {
         this.dropdownPanelOpened.set(false);
-    }
-
-    isEvent(option: EventType | Attribute): option is EventType {
-        return 'properties' in (option as EventType);
-    }
-
-    isAttribute(option: EventType | Attribute): option is Attribute {
-        return !this.isEvent(option);
     }
 
     // ControlValueAccessor methods
@@ -103,4 +96,7 @@ export class AutocompleteDropdownComponent implements ControlValueAccessor {
     setDisabledState(disabled: boolean) {
         this.disabled = disabled;
     }
+
+    protected readonly isEvent = isEvent;
+    protected readonly isAttribute = isAttribute;
 }

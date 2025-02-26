@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, input, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, input, OnDestroy, OnInit, output, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
@@ -8,6 +8,7 @@ import { NumberOperator } from 'src/app/model/number-operator.enum';
 import { StringOperator } from 'src/app/model/string-operator.enum';
 import { AutocompleteService } from 'src/app/shared/components/autocomplete-dropdown/services/autocomplete.service';
 import { ClickOutsideDirective } from 'src/app/shared/directives/click-outside.directive';
+import { isStringOperator } from 'src/app/shared/helpers';
 
 @Component({
     selector: 'app-operator-dropdown',
@@ -29,6 +30,7 @@ import { ClickOutsideDirective } from 'src/app/shared/directives/click-outside.d
 export class OperatorDropdownComponent implements OnInit, OnDestroy, ControlValueAccessor {
     selectedAttribute = input.required<Attribute | null>();
     selectedAttribute$ = toObservable(this.selectedAttribute);
+    onSelectOption = output<StringOperator | NumberOperator | null>();
 
     selectedOperator$ = new BehaviorSubject<StringOperator | NumberOperator | null>(null);
     activeTab$ = new BehaviorSubject<'string' | 'number'>('string');
@@ -51,7 +53,7 @@ export class OperatorDropdownComponent implements OnInit, OnDestroy, ControlValu
         this.selectedOperator$.pipe(takeUntil(this.destroy$))
             .subscribe((operator) => {
                 if (operator) {
-                    const activeTab = this.isStringOperator(operator!) ? 'string' : 'number';
+                    const activeTab = isStringOperator(operator!) ? 'string' : 'number';
                     this.activeTab$.next(activeTab);
                 }
             });
@@ -59,6 +61,7 @@ export class OperatorDropdownComponent implements OnInit, OnDestroy, ControlValu
 
     private emitSelectedOperator(value: StringOperator | NumberOperator | null): void {
         this.selectedOperator$.next(value);
+        this.onSelectOption.emit(value);
         this.onChange(value);
     }
 
@@ -83,9 +86,7 @@ export class OperatorDropdownComponent implements OnInit, OnDestroy, ControlValu
         this.closeDropdown();
     }
 
-    private isStringOperator(operator: StringOperator | NumberOperator): operator is StringOperator {
-        return Object.values(StringOperator).includes(operator as StringOperator);
-    }
+
 
     ngOnDestroy(): void {
         this.destroy$.next();

@@ -5,9 +5,9 @@ export enum StringOperator {
     DoesNotContain = 'does not contain',
 }
 
-export type StringOperatorToValueTypeMap = {
-    [StringOperator.Equals]: string,
-    [StringOperator.DoesNotEqual]: string,
-    [StringOperator.Contains]: string,
-    [StringOperator.DoesNotContain]: string,
+export const StringOperatorToValueTypeMap = {
+    [StringOperator.Equals]: 1,
+    [StringOperator.DoesNotEqual]: 1,
+    [StringOperator.Contains]: 1,
+    [StringOperator.DoesNotContain]: 1,
 };
