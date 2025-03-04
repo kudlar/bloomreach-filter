@@ -1,0 +1,23 @@
+.horizontal-line-long {
+  position: absolute;
+  top: calc(var(--spacing) * 9);
+  left: calc(var(--spacing) * -4);
+  height: 0.125rem;
+  width: calc(var(--spacing) * 4); // gap-4
+}
+
+.horizontal-line-short {
+  position: absolute;
+  top: calc(var(--spacing) * 9);
+  left: calc(var(--spacing) * -2);
+  height: 0.125rem;
+  width: calc(var(--spacing) * 2); // gap-2
+}
+
+.vertical-line {
+  position: absolute;
+  width: 0.125rem;
+  height: calc(var(--spacing) * 15);
+  top: calc(var(--spacing) * -5.5);
+  left: calc(var(--spacing) * -2);
+}

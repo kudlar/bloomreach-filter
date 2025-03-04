@@ -22,6 +22,7 @@ export class AttributeRuleComponent {
     attributeRuleFormGroup = input.required<FormGroup>();
     eventList = input.required<EventType[] | []>();
     selectedEvent = input<EventType | null>(null);
+    index = input.required<number>();
     onRemove = output<void>();
 
     attributeDropdownShowed = signal<boolean>(true);
