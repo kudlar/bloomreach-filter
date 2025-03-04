@@ -1,7 +1,7 @@
 import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EventType } from 'src/app/model/event-list-response';
-import { Attribute } from 'src/app/model/filter';
+import { Attribute, AttributeRule } from 'src/app/model/filter';
 import { NumberOperator, NumberOperatorToValueTypeMap } from 'src/app/model/number-operator.enum';
 import { StringOperator, StringOperatorToValueTypeMap } from 'src/app/model/string-operator.enum';
 import { AutocompleteDropdownComponent } from 'src/app/shared/components/autocomplete-dropdown/autocomplete-dropdown.component';
@@ -33,7 +33,8 @@ export class AttributeRuleComponent {
 
     constructor() {
         effect(() => {
-            if (this.selectedOperator()) {
+            const attributeRuleValues: AttributeRule = this.attributeRuleFormGroup().value;
+            if (this.selectedOperator() && !attributeRuleValues.value1 && !attributeRuleValues.value2) {
                 const valuesCount = isStringOperator(this.selectedOperator()!)
                                     ? StringOperatorToValueTypeMap[this.selectedOperator()! as StringOperator]
                                     : NumberOperatorToValueTypeMap[this.selectedOperator()! as NumberOperator];

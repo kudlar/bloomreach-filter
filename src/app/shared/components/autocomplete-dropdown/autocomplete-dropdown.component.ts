@@ -70,6 +70,7 @@ export class AutocompleteDropdownComponent implements ControlValueAccessor {
 
     writeValue(value: EventType | Attribute) {
         this.selectedOption.set(value);
+        this.onSelectOption.emit(value);
     }
 
     onChange = (value: EventType | Attribute) => {

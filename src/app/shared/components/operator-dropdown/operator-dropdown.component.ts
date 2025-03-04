@@ -43,7 +43,7 @@ export class OperatorDropdownComponent implements OnInit, OnDestroy, ControlValu
     ngOnInit(): void {
         this.selectedAttribute$.pipe(takeUntil(this.destroy$))
             .subscribe((selectedAttribute: Attribute | null) => {
-                if (selectedAttribute) {
+                if (selectedAttribute && !this.selectedOperator$.value) {
                     const possibleOperators = selectedAttribute.type === 'string' ? StringOperator : NumberOperator;
                     const firstOperator = Object.values(possibleOperators)[0];
                     this.emitSelectedOperator(firstOperator);
@@ -99,6 +99,7 @@ export class OperatorDropdownComponent implements OnInit, OnDestroy, ControlValu
 
     writeValue(value: StringOperator | NumberOperator | null) {
         this.selectedOperator$.next(value);
+        this.onSelectOption.emit(value);
     }
 
     onChange = (value: StringOperator | NumberOperator | null) => {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AttributeRule, FilterStep } from 'src/app/model/filter';
 
 @Injectable({
     providedIn: 'root',
@@ -21,6 +22,30 @@ export class FilterService {
 
     removeStep(index: number): void {
         this.steps.removeAt(index);
+    }
+
+    cloneStep(index: number): void {
+        const stepItemData = this.steps.at(index).getRawValue();
+        const clonedStep = this.createStepWithData(stepItemData);
+        this.steps.push(clonedStep);
+    }
+
+    // Function to create a new form group (useful for cloning)
+    createStepWithData(data: FilterStep): FormGroup {
+
+        const rulesGroups: FormGroup[] = (data.attributeRules || ['']).map((rule: AttributeRule) => {
+            return new FormGroup({
+                attribute: new FormControl(rule.attribute, Validators.required),
+                operator: new FormControl(rule.operator, Validators.required),
+                value1: new FormControl(rule.value1, Validators.required),
+                value2: new FormControl(rule.value2, Validators.required),
+            });
+        });
+
+        return new FormGroup({
+            eventName: new FormControl(data.eventName || '', Validators.required),
+            attributeRules: new FormArray(rulesGroups),
+        });
     }
 
     get steps(): FormArray {

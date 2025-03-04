@@ -26,9 +26,11 @@ export class FilterStepComponent {
     selectedEvent = signal<EventType | null>(null);
     addAttributeBtnShowed = signal<boolean>(false);
 
-    selectEvent(option: EventType | Attribute): void {
+    selectEvent(option: EventType | Attribute | null): void {
         this.selectedEvent.set(option as EventType);
-        this.addAttributeBtnShowed.set(true);
+        if (option && this.filterService.getAttributeRules(this.stepIndex()).length === 0) {
+            this.addAttributeBtnShowed.set(true);
+        }
     }
 
     addRules(): void {
