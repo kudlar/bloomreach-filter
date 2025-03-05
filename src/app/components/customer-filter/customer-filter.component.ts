@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { tap } from 'rxjs';
 import { FilterStepComponent } from 'src/app/components/filter-step/filter-step.component';
 import { EventListResponse, EventType } from 'src/app/model/event-list-response';
+import { FilterState } from 'src/app/model/filter';
 import { FilterService } from 'src/app/shared/services/filter.service';
 import { EventsService } from 'src/services/events.service';
 
@@ -28,16 +28,12 @@ export class CustomerFilterComponent {
         this.initForm();
 
         this.eventsService.fetchEventList()
-            .pipe(
-                takeUntilDestroyed(),
-                tap(event => console.log('events', event)),
-            )
+            .pipe(takeUntilDestroyed())
             .subscribe((eventsResponse: EventListResponse) => {
                 this.eventList = eventsResponse.events;
             });
 
-        //
-        this.filterForm.valueChanges.subscribe(value => {
+        this.filterForm.valueChanges.subscribe((value: FilterState) => {
             console.warn('Filter Form Value Changes:', value);
         });
     }
@@ -48,8 +44,8 @@ export class CustomerFilterComponent {
     }
 
     applyFilters(): void {
-        const formValues = this.filterForm.value;
-        console.log('Filter Form Values', formValues);
+        const formValues: FilterState = this.filterForm.value;
+        console.log('Filter Form Values:', formValues);
     }
 
     private initForm(): void {

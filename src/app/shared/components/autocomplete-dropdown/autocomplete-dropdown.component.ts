@@ -44,6 +44,9 @@ export class AutocompleteDropdownComponent implements ControlValueAccessor {
         return this.autocompleteService.filterOptions(this.eventList(), this.selectedEvent(), this.searchTerm());
     });
 
+    protected readonly isEvent = isEvent;
+    protected readonly isAttribute = isAttribute;
+
     selectOption(option: EventType | Attribute): void {
         this.selectedOption.set(option);
         this.onSelectOption.emit(option);
@@ -97,7 +100,4 @@ export class AutocompleteDropdownComponent implements ControlValueAccessor {
     setDisabledState(disabled: boolean) {
         this.disabled = disabled;
     }
-
-    protected readonly isEvent = isEvent;
-    protected readonly isAttribute = isAttribute;
 }
